@@ -431,7 +431,7 @@ ${inject.body || ''}
     const framePattern = tempOutput.replace('%012d', '*')
     const escapePath = arg => arg.replace(/(\s+)/g, '\\$1')
 
-    ora(`Generating WEBP with Skip frames multiplier ${skipFramesMultiplier}`)
+    console.log(`Generating WEBP with Skip frames multiplier ${skipFramesMultiplier}`)
 
     // remove files to decrease number of frames
     /*fs.readdir(tempDir, (err, files) => {
