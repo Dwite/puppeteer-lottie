@@ -431,7 +431,7 @@ ${inject.body || ''}
     const framePattern = tempOutput.replace('%012d', '*')
     const escapePath = arg => arg.replace(/(\s+)/g, '\\$1')
 
-    console.log(`Generating WEBP with Skip frames multiplier ${skipFramesMultiplier}`)
+    console.log(`\nGenerating WEBP with Skip frames multiplier ${skipFramesMultiplier}`)
 
     // remove files to decrease number of frames
     /*fs.readdir(tempDir, (err, files) => {
@@ -452,14 +452,17 @@ ${inject.body || ''}
     });*/
 
     const params = [
-      '-d', Math.round(1000 / fps) * skipFramesMultiplier,
-      framePattern,
       '-min_size',
+      '-d', Math.round(1000 / fps * skipFramesMultiplier),
+      '-lossy',
+      framePattern,
       '-q', 100,
       '-m', 6,
       '-v',
       '-o', escapePath(output)
     ].filter(Boolean)
+
+    console.log(`params = ${params}`);
 
     const executable = process.env.IMG2WEBP_PATH || 'img2webp'
     const cmd = [ executable ].concat(params).join(' ')
