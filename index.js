@@ -357,7 +357,7 @@ ${inject.body || ''}
     })
   }
 
-  const skipFramesMultiplier = 1;
+  const skipFramesMultiplier = 4;
   console.log(`Duration = ${duration}`);
 
   for (let frame = 0; frame < numFrames; frame += skipFramesMultiplier) {
@@ -455,13 +455,16 @@ ${inject.body || ''}
 
     const params = [
       '-min_size',
-      '-d', Math.round(1000 / fps * skipFramesMultiplier),
+      '-d', Math.round(duration * 1000 / fps * skipFramesMultiplier),
       '-lossy',
       '-m', 6,
       '-q', 10,
-      framePattern,
+      '-kmin', 1,
+      '-kmax', 3,
       '-v',
-      '-o', escapePath(output)
+      framePattern,
+      '-o', escapePath(output),
+      '-version'
     ].filter(Boolean)
 
     console.log(`params = ${params}`);
