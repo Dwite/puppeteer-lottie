@@ -357,7 +357,8 @@ ${inject.body || ''}
     })
   }
 
-  for (let frame = 0; frame < numFrames; frame += 2) {
+  const skipFramesMultiplier = 3
+  for (let frame = 0; frame < numFrames; frame += skipFramesMultiplier) {
     const frameOutputPath = isMultiFrame
       ? sprintf(tempOutput, frame + 1)
       : tempOutput
@@ -430,6 +431,8 @@ ${inject.body || ''}
     const framePattern = tempOutput.replace('%012d', '*')
     const escapePath = arg => arg.replace(/(\s+)/g, '\\$1')
 
+    ora(`Generating WEBP with Skip frames multiplier ${skipFramesMultiplier}`)
+
     // remove files to decrease number of frames
     /*fs.readdir(tempDir, (err, files) => {
       if (err) throw err;
@@ -449,7 +452,7 @@ ${inject.body || ''}
     });*/
 
     const params = [
-      '-d', Math.round(1000 / fps),
+      '-d', Math.round(1000 / fps) * skipFramesMultiplier,
       framePattern,
       '-min_size',
       '-q', 100,
