@@ -431,7 +431,7 @@ ${inject.body || ''}
     const escapePath = arg => arg.replace(/(\s+)/g, '\\$1')
 
     // remove files to decrease number of frames
-    fs.readdir(tempDir, (err, files) => {
+    /*fs.readdir(tempDir, (err, files) => {
       if (err) throw err;
       ora(`Removing files in ${tempDir}`)
 
@@ -446,7 +446,7 @@ ${inject.body || ''}
           number += 1;
         }
       }
-    });
+    });*/
 
     const params = [
       '-d', Math.round(1000 / fps),
