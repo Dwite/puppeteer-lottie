@@ -433,6 +433,10 @@ ${inject.body || ''}
     const params = [
       '-d', Math.round(1000 / fps),
       framePattern,
+      '-min_size',
+      '-q', 50,
+      '-m', 6,
+      '-v',
       '-o', escapePath(output)
     ].filter(Boolean)
 
