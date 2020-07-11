@@ -357,7 +357,7 @@ ${inject.body || ''}
     })
   }
 
-  for (let frame = 0; frame < numFrames; ++frame) {
+  for (let frame = 0; frame < numFrames; frame += 2) {
     const frameOutputPath = isMultiFrame
       ? sprintf(tempOutput, frame + 1)
       : tempOutput
