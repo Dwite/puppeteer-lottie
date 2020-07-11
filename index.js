@@ -357,7 +357,9 @@ ${inject.body || ''}
     })
   }
 
-  const skipFramesMultiplier = 3
+  const skipFramesMultiplier = 1;
+  console.log(`Duration = ${duration}`);
+
   for (let frame = 0; frame < numFrames; frame += skipFramesMultiplier) {
     const frameOutputPath = isMultiFrame
       ? sprintf(tempOutput, frame + 1)
@@ -455,9 +457,9 @@ ${inject.body || ''}
       '-min_size',
       '-d', Math.round(1000 / fps * skipFramesMultiplier),
       '-lossy',
-      framePattern,
-      '-q', 100,
       '-m', 6,
+      '-q', 10,
+      framePattern,
       '-v',
       '-o', escapePath(output)
     ].filter(Boolean)
