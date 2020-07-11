@@ -358,7 +358,7 @@ ${inject.body || ''}
   }
 
   const skipFramesMultiplier = 4;
-  console.log(`Duration = ${duration}`);
+  console.log(`\nDuration = ${duration}`);
 
   for (let frame = 0; frame < numFrames; frame += skipFramesMultiplier) {
     const frameOutputPath = isMultiFrame
@@ -459,12 +459,8 @@ ${inject.body || ''}
       '-lossy',
       '-m', 6,
       '-q', 10,
-      '-kmin', 1,
-      '-kmax', 3,
-      '-v',
       framePattern,
       '-o', escapePath(output),
-      '-version'
     ].filter(Boolean)
 
     console.log(`params = ${params}`);
