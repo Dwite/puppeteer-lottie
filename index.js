@@ -430,11 +430,29 @@ ${inject.body || ''}
     const framePattern = tempOutput.replace('%012d', '*')
     const escapePath = arg => arg.replace(/(\s+)/g, '\\$1')
 
+    // remove files to decrease number of frames
+    fs.readdir(tempDir, (err, files) => {
+      if (err) throw err;
+      ora(`Removing files in ${tempDir}`)
+
+      let number = 0;
+      for (const file of files) {
+        if (number % 2 === 0) {
+          ora(`Removing file ${file}`)
+          fs.unlink(path.join(tempDir, file), err => {
+            if (err) throw err;
+          });
+        } else {
+          number += 1;
+        }
+      }
+    });
+
     const params = [
       '-d', Math.round(1000 / fps),
       framePattern,
       '-min_size',
-      '-q', 0,
+      '-q', 10,
       '-m', 6,
       '-v',
       '-o', escapePath(output)
