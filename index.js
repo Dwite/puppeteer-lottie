@@ -453,12 +453,14 @@ ${inject.body || ''}
       }
     });*/
 
+    const newFps = Math.min(1 / (duration / numOutputFrames), 30)
+
     const params = [
       '-min_size',
-      '-d', Math.round(duration * 1000 / fps * skipFramesMultiplier),
+      '-d', Math.round(1000 / newFps * (skipFramesMultiplier / 2)),
       '-lossy',
       '-m', 6,
-      '-q', 10,
+      '-q', 1,
       framePattern,
       '-o', escapePath(output),
     ].filter(Boolean)
