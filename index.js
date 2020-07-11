@@ -434,7 +434,7 @@ ${inject.body || ''}
       '-d', Math.round(1000 / fps),
       framePattern,
       '-min_size',
-      '-q', 50,
+      '-q', 10,
       '-m', 6,
       '-v',
       '-o', escapePath(output)
