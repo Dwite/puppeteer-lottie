@@ -412,7 +412,7 @@ ${inject.body || ''}
 
     const params = [
       '-o', escapePath(output),
-      '--fps', Math.min(gifskiOptions.fps || fps, 50), // most of viewers do not support gifs with FPS > 50
+      '--fps', Math.min(gifskiOptions.fps || fps, 30), // most of viewers do not support gifs with FPS > 50
       gifskiOptions.fast && '--fast',
       '--quality', gifskiOptions.quality,
       '--quiet',
@@ -435,24 +435,6 @@ ${inject.body || ''}
 
     console.log(`\nGenerating WEBP with Skip frames multiplier ${skipFramesMultiplier}`)
 
-    // remove files to decrease number of frames
-    /*fs.readdir(tempDir, (err, files) => {
-      if (err) throw err;
-      ora(`Removing files in ${tempDir}`)
-
-      let number = 0;
-      for (const file of files) {
-        if (number % 2 === 0) {
-          ora(`Removing file ${file}`)
-          fs.unlink(path.join(tempDir, file), err => {
-            if (err) throw err;
-          });
-        } else {
-          number += 1;
-        }
-      }
-    });*/
-
     const newFps = Math.min(1 / (duration / numOutputFrames), 30)
 
     const params = [
@@ -460,7 +442,8 @@ ${inject.body || ''}
       '-d', Math.round(1000 / newFps * (skipFramesMultiplier / 2)),
       '-lossy',
       '-m', 6,
-      '-q', 1,
+      '-q', 30,
+      '-v',
       framePattern,
       '-o', escapePath(output),
     ].filter(Boolean)
