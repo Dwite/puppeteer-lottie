@@ -76,7 +76,7 @@ module.exports = async (opts) => {
       preset: 'medium'
     },
     gifskiOptions = {
-      quality: 80,
+      quality: 100,
       fast: false
     }
   } = opts
