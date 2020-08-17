@@ -66,10 +66,10 @@ module.exports = async (opts) => {
     quiet = false,
     deviceScaleFactor = 1,
     renderer = 'svg',
-    rendererSettings = { },
-    style = { },
-    inject = { },
-    puppeteerOptions = { },
+    rendererSettings = {},
+    style = {},
+    inject = {},
+    puppeteerOptions = {},
     ffmpegOptions = {
       crf: 20,
       profileVideo: 'main',
@@ -88,7 +88,7 @@ module.exports = async (opts) => {
 
   ow(output, ow.string.nonEmpty, 'output')
   ow(deviceScaleFactor, ow.number.integer.positive, 'deviceScaleFactor')
-  ow(renderer, ow.string.oneOf([ 'svg', 'canvas', 'html' ], 'renderer'))
+  ow(renderer, ow.string.oneOf(['svg', 'canvas', 'html'], 'renderer'))
   ow(rendererSettings, ow.object.plain, 'rendererSettings')
   ow(puppeteerOptions, ow.object.plain, 'puppeteerOptions')
   ow(ffmpegOptions, ow.object.exactShape({
@@ -357,15 +357,20 @@ ${inject.body || ''}
     })
   }
 
-  const skipFramesMultiplier = 4;
+  const maxFrames = 30;
+  const skipFramesMultiplier = Math.floor(numFrames / maxFrames);
   console.log(`\nDuration = ${duration}`);
 
-  for (let frame = 0; frame < numFrames; frame += skipFramesMultiplier) {
+  let totalOutFrames = 0;
+  const multiplier = Math.max(1, Math.floor(numFrames / maxFrames));
+
+  for (let frame = 0; totalOutFrames < maxFrames && frame < numFrames; frame += multiplier) {
     const frameOutputPath = isMultiFrame
       ? sprintf(tempOutput, frame + 1)
       : tempOutput
 
     // eslint-disable-next-line no-undef
+    totalOutFrames += 1
     await page.evaluate((frame) => animation.goToAndStop(frame, true), frame)
     const screenshot = await rootHandle.screenshot({
       path: isMp4 ? undefined : frameOutputPath,
@@ -420,7 +425,7 @@ ${inject.body || ''}
     ].filter(Boolean)
 
     const executable = process.env.GIFSKI_PATH || 'gifski'
-    const cmd = [ executable ].concat(params).join(' ')
+    const cmd = [executable].concat(params).join(' ')
 
     await execa.shell(cmd)
 
@@ -448,10 +453,10 @@ ${inject.body || ''}
       '-o', escapePath(output),
     ].filter(Boolean)
 
-    console.log(`params = ${params}`);
+    console.log(`params = ${params}`)
 
     const executable = process.env.IMG2WEBP_PATH || 'img2webp'
-    const cmd = [ executable ].concat(params).join(' ')
+    const cmd = [executable].concat(params).join(' ')
 
     await execa.shell(cmd)
 
