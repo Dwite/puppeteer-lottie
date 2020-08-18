@@ -414,10 +414,14 @@ ${inject.body || ''}
 
     const framePattern = tempOutput.replace('%012d', '*')
     const escapePath = arg => arg.replace(/(\s+)/g, '\\$1')
+    const newFps = Math.min(1 / (duration / numOutputFrames), 30)
+    let fpsV2 = Math.min(Math.round((1000 / newFps) * (skipFramesMultiplier / 2)), 30)
+
+    console.log(`\n newFPS = ${newFps}, fpsV2 = ${fpsV2}`)
 
     const params = [
       '-o', escapePath(output),
-      '--fps', Math.min(gifskiOptions.fps || fps, 30), // most of viewers do not support gifs with FPS > 50
+      '--fps', fpsV2, // most of viewers do not support gifs with FPS > 50
       gifskiOptions.fast && '--fast',
       '--quality', gifskiOptions.quality,
       '--quiet',
@@ -441,11 +445,13 @@ ${inject.body || ''}
     console.log(`\nGenerating WEBP with Skip frames multiplier ${skipFramesMultiplier}`)
 
     const newFps = Math.min(1 / (duration / numOutputFrames), 30)
+    let frameDuration = Math.round((1000 / newFps) * skipFramesMultiplier)
+    console.log(`\nFrame duration ${frameDuration}`)
 
     const params = [
       '-min_size',
       '-loop', 0,
-      '-d', Math.round((1000 / newFps) * skipFramesMultiplier),
+      '-d', frameDuration,
       '-lossy',
       '-m', 6,
       '-q', 30,
