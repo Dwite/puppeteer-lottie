@@ -444,7 +444,7 @@ ${inject.body || ''}
 
     const params = [
       '-min_size',
-      '-loop', 5,
+      '-loop', 0,
       '-d', Math.round(1000 / newFps * (skipFramesMultiplier / 2)),
       '-lossy',
       '-m', 6,
