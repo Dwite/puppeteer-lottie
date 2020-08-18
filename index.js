@@ -414,10 +414,10 @@ ${inject.body || ''}
 
     const framePattern = tempOutput.replace('%012d', '*')
     const escapePath = arg => arg.replace(/(\s+)/g, '\\$1')
-    const newFps = Math.min(1 / (duration / numOutputFrames), 30)
+    const realFps = 1 / (duration / numOutputFrames)
     //let fpsV2 = Math.min(Math.round((1000 / newFps) * (skipFramesMultiplier / 2)), 30)
-    let fpsV2 = Math.min(newFps / skipFramesMultiplier, 30)
-    console.log(`\n newFPS = ${newFps}, fpsV2 = ${fpsV2}`)
+    let fpsV2 = Math.min(realFps / skipFramesMultiplier, 30)
+    console.log(`\n newFPS = ${realFps}, fpsV2 = ${fpsV2}`)
 
     const params = [
       '-o', escapePath(output),
