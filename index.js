@@ -364,13 +364,13 @@ ${inject.body || ''}
   let totalOutFrames = 0
   const multiplier = Math.max(1, Math.floor(numFrames / maxFrames))
 
-  for (let frame = 0; totalOutFrames < maxFrames && frame < numFrames; frame += multiplier) {
+  for (let frame = 0; totalOutFrames < maxFrames; frame = Math.min(numFrames - 1, (frame + multiplier))) {
     const frameOutputPath = isMultiFrame
       ? sprintf(tempOutput, frame + 1)
       : tempOutput
 
-    // eslint-disable-next-line no-undef
     totalOutFrames += 1
+    // eslint-disable-next-line no-undef
     await page.evaluate((frame) => animation.goToAndStop(frame, true), frame)
     const screenshot = await rootHandle.screenshot({
       path: isMp4 ? undefined : frameOutputPath,
@@ -445,13 +445,13 @@ ${inject.body || ''}
     const params = [
       '-min_size',
       '-loop', 0,
-      '-d', Math.round(1000 / newFps * (skipFramesMultiplier / 2)),
+      '-d', Math.round((1000 / newFps) * skipFramesMultiplier),
       '-lossy',
       '-m', 6,
       '-q', 30,
       '-v',
       framePattern,
-      '-o', escapePath(output),
+      '-o', escapePath(output)
     ].filter(Boolean)
 
     console.log(`params = ${params}`)
