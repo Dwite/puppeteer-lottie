@@ -357,12 +357,12 @@ ${inject.body || ''}
     })
   }
 
-  const maxFrames = 30;
-  const skipFramesMultiplier = Math.floor(numFrames / maxFrames);
-  console.log(`\nDuration = ${duration}`);
+  const maxFrames = 30
+  const skipFramesMultiplier = Math.floor(numFrames / maxFrames)
+  console.log(`\nDuration = ${duration}`)
 
-  let totalOutFrames = 0;
-  const multiplier = Math.max(1, Math.floor(numFrames / maxFrames));
+  let totalOutFrames = 0
+  const multiplier = Math.max(1, Math.floor(numFrames / maxFrames))
 
   for (let frame = 0; totalOutFrames < maxFrames && frame < numFrames; frame += multiplier) {
     const frameOutputPath = isMultiFrame
@@ -444,6 +444,7 @@ ${inject.body || ''}
 
     const params = [
       '-min_size',
+      '-loop', 5,
       '-d', Math.round(1000 / newFps * (skipFramesMultiplier / 2)),
       '-lossy',
       '-m', 6,
