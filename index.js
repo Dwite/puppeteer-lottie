@@ -416,7 +416,7 @@ ${inject.body || ''}
     const escapePath = arg => arg.replace(/(\s+)/g, '\\$1')
     const realFps = 1 / (duration / numOutputFrames)
     //let fpsV2 = Math.min(Math.round((1000 / newFps) * (skipFramesMultiplier / 2)), 30)
-    let fpsV2 = Math.min(realFps / skipFramesMultiplier, 30)
+    let fpsV2 = Math.round(Math.min(realFps / skipFramesMultiplier, 30) * 1.2)
     console.log(`\n newFPS = ${realFps}, fpsV2 = ${fpsV2}`)
 
     const params = [
